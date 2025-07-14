@@ -32,7 +32,8 @@ exports.getLeaderboard = async (req, res) => {
     const leaderboard = users.map((user, index) => ({
       name: user.name,
       totalPoints: user.totalPoints,
-      rank: index + 1
+      rank: index + 1,
+      _id:user._id
     }));
     res.json(leaderboard);
   } catch (error) {
