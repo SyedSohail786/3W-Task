@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion';
 import { UserListItem } from './UserListItem';
 
-export const UserList = ({ users, handleClaim, showClaimHelp }) => (
+export const UserList = ({ users, handleClaim, showClaimHelp,handleFirstClaim }) => (
   <div className="flex-1 overflow-y-auto pr-2">
     {users.map(user => (
       <UserListItem 
         key={user._id}
         user={user}
         handleClaim={handleClaim}
+        handleFirstClaim={handleFirstClaim}
         showClaimHelp={showClaimHelp && users.indexOf(user) === 0}
       />
     ))}

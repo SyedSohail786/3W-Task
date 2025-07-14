@@ -10,7 +10,7 @@ import { ClaimPointsNotification } from './components/ClaimPointsNotification';
 import { LeaderboardTable } from './components/LeaderboardTable';
 import { TopThreePodium } from './components/TopThreePodium';
 import { UserList } from './components/UserList';
-import { WelcomeTour } from './components/WelcomeTour';
+import { useWelcomeTour } from './components/useWelcomeTour';
 
 // Image imports (replace with your actual image paths)
 import championMedal from '../src/assets/champion-medal.png';
@@ -30,7 +30,7 @@ export default function App() {
   const [previousRanks, setPreviousRanks] = useState({});
 
   // Welcome tour
-  const { showClaimHelp } = WelcomeTour({});
+  const { showClaimHelp, handleFirstClaim } = useWelcomeTour({});
 
   // API calls
   const fetchUsers = async () => {
@@ -170,6 +170,7 @@ export default function App() {
               users={users}
               handleClaim={handleClaim}
               showClaimHelp={showClaimHelp}
+              handleFirstClaim={handleFirstClaim}
             />
           </div>
 
