@@ -1,10 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { FiZap } from 'react-icons/fi';
+import { ImSpinner8 } from 'react-icons/im'; 
 
 export const UserListItem = ({ user, handleClaim, showClaimHelp, hasClaimed }) => {
-  const handleClaimClick = () => {
-    handleClaim(user._id);
-    // The WelcomeTour component should handle hiding after first claim
+  const [isClaiming, setIsClaiming] = useState(false);
+
+  const handleClaimClick = async () => {
+    setIsClaiming(true);
+    await handleClaim(user._id);
+    setIsClaiming(false);
   };
 
   return (
@@ -22,6 +27,11 @@ export const UserListItem = ({ user, handleClaim, showClaimHelp, hasClaimed }) =
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             className="absolute -top-8 right-0 z-10"
           >
+            <div className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center shadow-lg">
+              <FiZap className="mr-1.5" />
+              <span>Tap to claim points!</span>
+              <div className="absolute bottom-0 right-3 w-3 h-3 bg-indigo-600 transform rotate-45 -mb-1.5"></div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -37,12 +47,19 @@ export const UserListItem = ({ user, handleClaim, showClaimHelp, hasClaimed }) =
           </span>
           <button
             onClick={handleClaimClick}
-            className="p-2 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition-colors relative"
+            disabled={isClaiming}
+            className={`p-2 rounded-full hover:bg-purple-200 transition-colors relative ${
+              isClaiming ? 'bg-purple-200' : 'bg-purple-100 text-purple-600'
+            }`}
             title="Claim points"
             aria-label={`Claim points for ${user.name}`}
           >
-            <FiZap size={16} />
-            {showClaimHelp && !hasClaimed && (
+            {isClaiming ? (
+              <ImSpinner8 className="animate-spin" size={16} />
+            ) : (
+              <FiZap size={16} />
+            )}
+            {showClaimHelp && !hasClaimed && !isClaiming && (
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping opacity-75"></span>
             )}
           </button>

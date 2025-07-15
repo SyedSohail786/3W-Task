@@ -67,33 +67,35 @@ export default function App() {
 
   // Handlers
   const handleClaim = async (userId) => {
-    try {
-      const user = users.find(u => u._id === userId);
-      const previousRank = previousRanks[userId];
+  try {
+    const user = users.find(u => u._id === userId);
+    const previousRank = previousRanks[userId];
 
-      const res = await axios.post(`${backendUrl}/api/claim-points`, { userId });
-      const newLeaderboard = await fetchLeaderboard();
+    const res = await axios.post(`${backendUrl}/api/claim-points`, { userId });
+    const newLeaderboard = await fetchLeaderboard();
 
-      if (newLeaderboard) {
-        const currentUser = newLeaderboard.find(u => u._id === userId);
-        const rankChanged = previousRank !== currentUser.rank;
-        setClaimNotification({
-          name: user.name,
-          points: res.data.claimedPoints,
-          rankChanged,
-          newRank: currentUser.rank,
-          previousRank
-        });
+    if (newLeaderboard) {
+      const currentUser = newLeaderboard.find(u => u._id === userId);
+      const rankChanged = previousRank !== currentUser.rank;
+      setClaimNotification({
+        name: user.name,
+        points: res.data.claimedPoints,
+        rankChanged,
+        newRank: currentUser.rank,
+        previousRank
+      });
 
-        setTimeout(() => setClaimNotification(null), 4000);
-        await fetchUsers();
-      }
-      setShowClaimHelp(false)
-    } catch (error) {
-      toast.error('Failed to claim points');
-      console.log(error.message);
+      setTimeout(() => setClaimNotification(null), 4000);
+      await fetchUsers();
     }
-  };
+    setShowClaimHelp(false);
+    return true; // Return success status
+  } catch (error) {
+    toast.error('Failed to claim points');
+    console.log(error.message);
+    return false; // Return failure status
+  }
+};
 
   const handleAddUser = async () => {
     if (!newUserName.trim()) {
