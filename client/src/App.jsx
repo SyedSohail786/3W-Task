@@ -17,6 +17,9 @@ import championMedal from '../src/assets/champion-medal.png';
 import diamondMedal from '../src/assets/diamond-medal.png';
 import platiniumMedal from '../src/assets/platinium-medal.png';
 
+//importing backend url
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function App() {
   // State management
   const [users, setUsers] = useState([]);
@@ -35,7 +38,7 @@ export default function App() {
   // API calls
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users');
+      const res = await axios.get(`${backendUrl}/api/users`);
       setUsers(res.data);
     } catch (error) {
       toast.error('Failed to fetch users');
@@ -44,7 +47,7 @@ export default function App() {
 
   const fetchLeaderboard = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users/leaderboard');
+      const res = await axios.get(`${backendUrl}/api/users/leaderboard`);
 
       // Store previous ranks before updating
       const newRanks = {};
@@ -68,7 +71,7 @@ export default function App() {
       const user = users.find(u => u._id === userId);
       const previousRank = previousRanks[userId];
 
-      const res = await axios.post('http://localhost:5000/api/claim-points', { userId });
+      const res = await axios.post(`${backendUrl}/api/claim-points`, { userId });
       const newLeaderboard = await fetchLeaderboard();
 
       if (newLeaderboard) {
@@ -98,7 +101,7 @@ export default function App() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/users/add', { name: newUserName });
+      await axios.post(`${backendUrl}/api/users/add`, { name: newUserName });
       setNewUserName('');
       setShowInput(false);
       toast.success("User added successfully");
