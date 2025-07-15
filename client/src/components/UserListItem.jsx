@@ -22,11 +22,6 @@ export const UserListItem = ({ user, handleClaim, showClaimHelp, hasClaimed }) =
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             className="absolute -top-8 right-0 z-10"
           >
-            {/* <div className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center shadow-lg">
-              <FiZap className="mr-1.5" />
-              <span>Tap to claim points!</span>
-              <div className="absolute bottom-0 right-3 w-3 h-3 bg-indigo-600 transform rotate-45 -mb-1.5"></div>
-            </div> */}
           </motion.div>
         )}
       </AnimatePresence>

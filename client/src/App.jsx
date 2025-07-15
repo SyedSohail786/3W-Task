@@ -33,7 +33,7 @@ export default function App() {
   const [previousRanks, setPreviousRanks] = useState({});
 
   // Welcome tour
-  const { showClaimHelp, handleFirstClaim } = useWelcomeTour({});
+  const { showClaimHelp, handleFirstClaim,setShowClaimHelp } = useWelcomeTour({});
 
   // API calls
   const fetchUsers = async () => {
@@ -88,6 +88,7 @@ export default function App() {
         setTimeout(() => setClaimNotification(null), 4000);
         await fetchUsers();
       }
+      setShowClaimHelp(false)
     } catch (error) {
       toast.error('Failed to claim points');
       console.log(error.message);

@@ -13,13 +13,12 @@ export const useWelcomeTour = () => {
       }, 1500);
       return () => clearTimeout(timer);
     }
-    setShowClaimHelp(false)
-    setHasClaimed(true);
   }, []);
   
   const handleFirstClaim = () => {
     setShowClaimHelp(false);
+    setHasClaimed(true);
   };
 
-  return { showClaimHelp, hasClaimed, handleFirstClaim };
+  return { showClaimHelp, hasClaimed, handleFirstClaim, setShowClaimHelp };
 };
